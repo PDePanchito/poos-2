@@ -31,7 +31,7 @@ class User:
 
             user_id, uname, saved_hash, role = rows[0]
 
-            if Security.hash_password(password) == saved_hash:
+            if Security.check_password(password, saved_hash):
                 return User(uname, saved_hash, role)
 
             return None
