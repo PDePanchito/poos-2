@@ -71,10 +71,22 @@ class Database:
             (
                 50
             ),
-                name varchar(255) NOT NULL,
-                email VARCHAR(255) UNIQUE NOT NULL,
-                phone_number VARCHAR(50),
-                address VARCHAR(255),
+                name VARCHAR
+            (
+                255
+            ) NOT NULL,
+                email VARCHAR
+            (
+                255
+            ) UNIQUE NOT NULL,
+                phone_number VARCHAR
+            (
+                50
+            ),
+                address VARCHAR
+            (
+                255
+            ),
                 salary DECIMAL
             (
                 12,
@@ -199,6 +211,32 @@ class Database:
                 id
             )
                 ON DELETE CASCADE
+                )
+            """,
+            """
+            CREATE TABLE IF NOT EXISTS economic_values
+            (
+                id
+                INT
+                AUTO_INCREMENT
+                PRIMARY
+                KEY,
+                index_code
+                VARCHAR
+            (
+                50
+            ) NOT NULL,
+                date DATE NOT NULL,
+                value DECIMAL
+            (
+                15,
+                5
+            ) NOT NULL,
+                UNIQUE
+            (
+                index_code,
+                date
+            )
                 )
             """
         ]
