@@ -37,17 +37,22 @@ class EconomicService:
         headers = ["Fecha", "Valor"]
         return tabulate(table_data, headers, tablefmt="grid")
 
-    def fetch_data(self, index):
+    def fetch_data(self, index, date):
+        now = datetime.now().strftime("%d-%m-%Y")
         try:
-            response = requests.get(f"{self.BASE_URL}{index}")
+            url = f"{self.BASE_URL}{index}/{now}" if not date else f"{self.BASE_URL}{index}/{date}"
+            response = requests.get(url)
             response.raise_for_status()
             data = response.json()
             return data
         except requests.RequestException as e:
             print(f"Ocurrio un error al obtener los datos: {e}")
 
-    def fetch_and_save(self, username, db, index, to_save):
-        data = self.fetch_data(index)
+    def fetch_and_save(self, username, db, index, to_save, date):
+        data = self.fetch_data(index, date)
+        if not data:
+            print("No se pudieron obtener los datos del índice económico.")
+            return "error"
         if to_save:
             self._save_data(username, db, index, data)
             print(f"Datos del índice {index} guardados correctamente.")
