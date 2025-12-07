@@ -53,7 +53,12 @@ class Menu:
         )
         option = input("Opción: ")
         if option == "1":
-            self.economic_controller.fetch_economic_data(username)
+            today = input("¿Desea obtener los datos de hoy? (s/n): ").lower()
+            if today == "s":
+                self.economic_controller.fetch_economic_data(username)
+            else:
+                date = input("Ingrese la fecha (dd-mm-yyyy): ")
+                self.economic_controller.fetch_economic_data(username, date)
 
     def user_menu(self):
         print(
