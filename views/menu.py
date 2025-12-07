@@ -1,5 +1,6 @@
 from config.database import Database
 from controller.department_controller import DepartmentController
+from controller.economic_index_controller import EconomicIndexController
 from controller.employee_controller import EmployeeController
 from controller.project_controller import ProjectController
 from controller.shift_controller import ShiftController
@@ -16,9 +17,11 @@ class Menu:
         self.shift_controller = ShiftController(self.db)
         self.user_controller = UserController(self.db)
         self.report_controller = ReportController(self.db)
+        self.economic_controller = EconomicIndexController(self.db)
 
     def start(self):
         print("Bienvenido al Sistema de Gestión de Empleados (EcoTech Solutions)")
+        username = self.login_menu()
         while True:
             option = self.main_menu()
             if option == "1":
@@ -33,12 +36,24 @@ class Menu:
                 self.report_menu()
             elif option == "6":
                 self.user_menu()
+            elif option == "7":
+                self.economic_index_menu(username)
             elif option == "0":
                 print("Saliendo...")
                 self.db.disconnect_database()
                 break
             else:
                 print("Opción no válida")
+
+    def economic_index_menu(self, username):
+        print(
+            "\nÍndices Económicos\n"
+            "1. Obtener información de índices\n"
+            "0. Volver"
+        )
+        option = input("Opción: ")
+        if option == "1":
+            self.economic_controller.fetch_economic_data(username)
 
     def user_menu(self):
         print(
@@ -52,6 +67,15 @@ class Menu:
         if option == "1":
             self.user_controller.create_user()
 
+    def login_menu(self):
+        while True:
+            user = self.user_controller.login()
+            if user:
+                break
+            else:
+                print("Inténtalo de nuevo.")
+        return user.username
+
     def main_menu(self):
         print(
             "\nMenú Principal\n"
@@ -61,6 +85,7 @@ class Menu:
             "4. Registro de tiempo\n"
             "5. Reportes\n"
             "6. Usuarios\n"
+            "7. Índices Económicos\n"
             "0. Salir"
         )
         return input("Opción: ")
