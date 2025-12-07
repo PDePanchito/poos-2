@@ -40,8 +40,9 @@ class Database:
             (
                 50
             ) NOT NULL
-                )
+                );
             """,
+
             """
             CREATE TABLE IF NOT EXISTS departments
             (
@@ -56,8 +57,9 @@ class Database:
                 255
             ) UNIQUE NOT NULL,
                 manager_employee_id INT NULL
-                )
+                );
             """,
+
             """
             CREATE TABLE IF NOT EXISTS employees
             (
@@ -103,8 +105,9 @@ class Database:
                 id
             )
                 ON DELETE SET NULL
-                )
+                );
             """,
+
             """
             CREATE TABLE IF NOT EXISTS projects
             (
@@ -123,8 +126,9 @@ class Database:
             (
                 50
             )
-                )
+                );
             """,
+
             """
             CREATE TABLE IF NOT EXISTS employee_projects
             (
@@ -166,8 +170,9 @@ class Database:
                 id
             )
                 ON DELETE CASCADE
-                )
+                );
             """,
+
             """
             CREATE TABLE IF NOT EXISTS shifts
             (
@@ -211,8 +216,9 @@ class Database:
                 id
             )
                 ON DELETE CASCADE
-                )
+                );
             """,
+
             """
             CREATE TABLE IF NOT EXISTS economic_values
             (
@@ -232,12 +238,22 @@ class Database:
                 15,
                 5
             ) NOT NULL,
+                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                requested_at DATETIME NOT NULL,
+                username VARCHAR
+            (
+                50
+            ) NOT NULL,
+                source VARCHAR
+            (
+                255
+            ) NOT NULL,
                 UNIQUE
             (
                 index_code,
                 date
             )
-                )
+                );
             """
         ]
         for stmt in stmts:
