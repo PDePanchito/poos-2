@@ -15,3 +15,14 @@ class UserController:
             role = "user"
         user = User(cleaned_username, password_hash, role=role)
         return user.create_user(self.db, password_hash)
+
+    def login(self):
+        username = Security.clean_text(input("Usuario: "))
+        password = input("Contraseña: ")
+        user = User.authenticate(self.db, username, password)
+        if user:
+            print(f"Bienvenido, {user.username}! Rol: {user.get_user_role()}")
+            return user
+        else:
+            print("Autenticación fallida. Usuario o contraseña incorrectos.")
+            return None
