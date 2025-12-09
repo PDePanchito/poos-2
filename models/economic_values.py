@@ -3,7 +3,7 @@ from datetime import datetime
 from config.database import Database
 
 
-class EconomicValues:
+class EconomicValues():
     def __init__(self, index_code: str, date: str, value: float, requested_at: datetime = None,
                  username: str = None, source: str = None):
         self.index_code = index_code

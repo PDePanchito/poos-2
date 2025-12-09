@@ -1,8 +1,12 @@
+from abstracts.module_access import ModuleAccess
 from config.database import Database
 from models.project import Project
 
 
-class ProjectController:
+class ProjectController(ModuleAccess):
+    ALLOWED_ROLES = [
+        "admin"
+    ]
     def __init__(self, db: Database):
         self.db = db
 

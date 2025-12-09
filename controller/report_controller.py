@@ -1,8 +1,13 @@
+from abstracts.module_access import ModuleAccess
 from models.administrator import Administrator
 from models.security import Security
 
 
-class ReportController:
+class ReportController(ModuleAccess):
+    ALLOWED_ROLES = [
+        "admin"
+    ]
+
     def __init__(self, db):
         self.db = db
 

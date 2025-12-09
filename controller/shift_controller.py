@@ -1,11 +1,17 @@
 from datetime import datetime
 
+from abstracts.module_access import ModuleAccess
 from config.database import Database
 from models.security import Security
 from models.shift import Shift
 
 
-class ShiftController:
+class ShiftController(ModuleAccess):
+    ALLOWED_ROLES = [
+        "admin",
+        "user",
+        "manager"
+    ]
     def __init__(self, db: Database):
         self.db = db
 

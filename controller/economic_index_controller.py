@@ -1,9 +1,15 @@
+from abstracts.module_access import ModuleAccess
 from config.database import Database
 from models.security import Security
-from services.economics_service import EconomicService
+from services.economic_index import EconomicService
 
 
-class EconomicIndexController:
+class EconomicIndexController(ModuleAccess):
+    ALLOWED_ROLES = [
+        "user",
+        "admin"
+    ]
+
     def __init__(self, db: Database):
         self.db = db
 

@@ -1,8 +1,14 @@
+from abstracts.module_access import ModuleAccess
 from config.database import Database
 from models.department import Department
 
 
-class DepartmentController:
+class DepartmentController(ModuleAccess):
+    ALLOWED_ROLES = [
+        "admin",
+        "manager"
+    ]
+
     def __init__(self, db: Database):
         self.db = db
 

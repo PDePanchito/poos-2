@@ -11,33 +11,33 @@ from controller.report_controller import ReportController
 class Menu:
     def __init__(self):
         self.db = Database()
+        self.user_controller = UserController(self.db)
         self.employee_controller = EmployeeController(self.db)
         self.department_controller = DepartmentController(self.db)
         self.project_controller = ProjectController(self.db)
         self.shift_controller = ShiftController(self.db)
-        self.user_controller = UserController(self.db)
         self.report_controller = ReportController(self.db)
         self.economic_controller = EconomicIndexController(self.db)
 
     def start(self):
         print("Bienvenido al Sistema de Gestión de Empleados (EcoTech Solutions)")
-        username = self.login_menu()
+        username, role = self.login_menu()
         while True:
             option = self.main_menu()
             if option == "1":
-                self.employee_menu()
+                self.employee_menu(role)
             elif option == "2":
-                self.department_menu()
+                self.department_menu(role)
             elif option == "3":
-                self.project_menu()
+                self.project_menu(role)
             elif option == "4":
-                self.shift_menu()
+                self.shift_menu(role)
             elif option == "5":
-                self.report_menu()
+                self.report_menu(role)
             elif option == "6":
-                self.user_menu()
+                self.user_menu(role)
             elif option == "7":
-                self.economic_index_menu(username)
+                self.economic_index_menu(username, role)
             elif option == "0":
                 print("Saliendo...")
                 self.db.disconnect_database()
@@ -45,7 +45,10 @@ class Menu:
             else:
                 print("Opción no válida")
 
-    def economic_index_menu(self, username):
+    def economic_index_menu(self, username, role):
+        if role not in EconomicIndexController.get_allowed_roles():
+            print("No tienes permisos para acceder a este módulo")
+            return
         print(
             "\nÍndices Económicos\n"
             "1. Obtener información de índices\n"
@@ -60,7 +63,10 @@ class Menu:
                 date = input("Ingrese la fecha (dd-mm-yyyy): ")
                 self.economic_controller.fetch_economic_data(username, date)
 
-    def user_menu(self):
+    def user_menu(self, role):
+        if role not in UserController.get_allowed_roles():
+            print("No tienes permisos para acceder a este módulo")
+            return
         print(
             "\nUsuarios\n"
             "1. Crear Usuario\n"
@@ -79,7 +85,7 @@ class Menu:
                 break
             else:
                 print("Inténtalo de nuevo.")
-        return user.username
+        return user.username, user.role
 
     def main_menu(self):
         print(
@@ -95,7 +101,10 @@ class Menu:
         )
         return input("Opción: ")
 
-    def employee_menu(self):
+    def employee_menu(self, role):
+        if role not in EmployeeController.get_allowed_roles():
+            print("No tienes permisos para acceder a este módulo")
+            return
         print(
             "\nEmpleados\n"
             "1. Crear\n"
@@ -120,7 +129,10 @@ class Menu:
         elif option == "6":
             self.employee_controller.unassign_project()
 
-    def department_menu(self):
+    def department_menu(self, role):
+        if role not in DepartmentController.get_allowed_roles():
+            print("No tienes permisos para acceder a este módulo")
+            return
         print(
             "\nDepartamentos\n"
             "1. Crear\n"
@@ -139,7 +151,10 @@ class Menu:
         elif option == "4":
             self.department_controller.delete_department()
 
-    def project_menu(self):
+    def project_menu(self, role):
+        if role not in ProjectController.get_allowed_roles():
+            print("No tienes permisos para acceder a este módulo")
+            return
         print(
             "\nProyectos\n"
             "1. Crear\n"
@@ -158,7 +173,10 @@ class Menu:
         elif option == "4":
             self.project_controller.delete_project()
 
-    def shift_menu(self):
+    def shift_menu(self, role):
+        if role not in ShiftController.get_allowed_roles():
+            print("No tienes permisos para acceder a este módulo")
+            return
         print(
             "\nRegistro de tiempo\n"
             "1. Registrar horas\n"
@@ -171,7 +189,10 @@ class Menu:
         elif option == "2":
             self.shift_controller.list_shifts()
 
-    def report_menu(self):
+    def report_menu(self, role):
+        if role not in ReportController.get_allowed_roles():
+            print("No tienes permisos para acceder a este módulo")
+            return
         print(
             "\nReportes\n"
             "1. Empleados\n"

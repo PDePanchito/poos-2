@@ -6,6 +6,18 @@ class Database:
         self.connection, self.cursor = self.get_connection()
         self._create_schema()
 
+    def is_user_data_empty(self):
+        try:
+            rows = self.fetch_all(
+                "SELECT id FROM users limit 1"
+            )
+            if not rows:
+                print("No existen usuarios.")
+                return True
+        except Exception as e:
+            print("Error inicializando la base de datos: ", e)
+        return False
+
     def get_connection(self):
         connection = mysql.connector.connect(
             user="root",

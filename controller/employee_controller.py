@@ -1,14 +1,31 @@
+from abstracts.module_access import ModuleAccess
 from config.database import Database
 from models.employee import Employee
 
 
-class EmployeeController:
+class EmployeeController(ModuleAccess):
+    ALLOWED_ROLES = [
+        "admin",
+        "manager"
+    ]
+
     def __init__(self, db: Database):
         self.db = db
+
+    def __normalize_string(self, value):
+        if not value:
+            print("Debes ingresar un valor.")
+            return None
+        if not len(value) > 5:
+            print("El contenido debe tener minimo 5 caracteres.")
+            return None
+        return value.strip()
 
     def register_employee(self):
         print("\n--- Registrar Empleado ---")
         name = input("Nombre: ")
+        if not self.__normalize_string(name):
+            return
         email = input("Correo: ")
         phone = input("Teléfono: ")
         address = input("Dirección: ")
